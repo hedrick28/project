@@ -1,0 +1,61 @@
+<br>
+<ng-container *ngIf="products?.length != 0">
+    <div class="card-table">
+        <div class="cart-product">
+            <table class="table">
+                <thead>
+                    <tr class="heads">
+                        <th scope="col"> Sr. No </th>
+                        <th scope="col"> Product Name </th>
+                        <th scope="col"> Product Image </th>
+                        <th scope="col"> Description </th>
+                        <th scope="col"> Price </th>
+                        <th scope="col"> Quantity </th>
+                        <th scope="col"> Total </th>
+                        <th scope="col"> Status </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of products; let i = index">
+                        <td> {{i+1}} </td>
+                        <td> {{item.title}} </td>
+                        <td> <img src="{{item.image}}" alt={{item.title}} height="100px" width="100px"> </td>
+                        <td> {{item.description}} </td>
+                        <td> {{item.price | currency: '&#8369;' : 'code'}} </td>
+                        <td>{{item.itemQuantity}}</td>
+                        <td> {{item.itemTotalPrice | currency: '&#8369;' : 'code'}} </td>
+                        <td><label class="pending"> PENDING </label></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><strong>Grand&nbsp;Total:</strong></td>
+                        <td><strong> {{grandTotal | currency: '&#8369;' : 'code'}}</strong></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</ng-container>
+<br>
+<hr>
+<ng-container *ngIf="products?.length == 0">
+    <div class="container">
+        <div class="center">
+            <h1 class="card-title"> My Cart </h1>
+            <img src="{{image_url}}/cart.png" alt="">
+            <h4> Your have no pending orders! </h4>
+            <button class = "btn btn-primary" routerLink="/product"> Shop Now </button>
+        </div>
+        <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+        <app-footer></app-footer>
+    </div>    
+</ng-container>
+<app-footer></app-footer>
+
+
+

@@ -1,0 +1,241 @@
+<nav class="navbar navbar-light bg-primary">
+  <div class="container-fluid">
+    <h1>Admin Dashboard</h1>
+    <div class="d-flex">
+      <button *ngIf="!visibility" (click)="clickAddUser()" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"
+        class="btn btn-success">Add User</button>
+        <button *ngIf="visibility" (click)="showButton()" type="button" class="btn btn-success">Manage Users</button>&nbsp;
+      <button *ngIf="!visibility" type="button" class="btn btn-success" (click)="topfiveItems()">Best Selling Poducts</button>&nbsp;
+      <button routerLink="../product-admin-dashboard" type="button" class="btn btn-success">All Products</button>&nbsp;
+      <button (click)="logout()" type="button" class="btn btn-danger">Logout</button>
+    </div>
+  </div>
+</nav>
+
+<div *ngIf="!visibility" >
+<table class="table mt-3">
+  <thead>
+    <tr>
+      <th scope="col">Username</th>
+      <th scope="col">First Name</th>
+      <th scope="col">Middle Name</th>
+      <th scope="col">Last Name</th>
+      <th scope="col">Email</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of userData">
+      <td>{{data.username}}</td>
+      <td>{{data.firstname}}</td>
+      <td>{{data.middlename}}</td>
+      <td>{{data.lastname}}</td>
+      <td>{{data.email}}</td>
+
+
+      <td>
+        <button [disabled] = "data.role === 'admin'" *ngIf="data.status === 'activated'" (click)="onUpdate(data)" class="btn btn-danger mx-3"
+          data-bs-toggle="modal" data-bs-target="#deactivateModal">Deactivate</button>
+        <button *ngIf="data.status === 'deactivated'" (click)="onUpdate(data)" class="btn btn-danger mx-3"
+          data-bs-toggle="modal" data-bs-target="#activateModal">Activate</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="examplfeModalLabel">User Details</h5>
+        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+
+      <div class="modal-body">
+        <form [formGroup]="formValue">
+          <div class="mb-3">
+          <label for="exampleInputUsername1">Username</label>
+          <input type="text" formControlName="username" class="form-control" id="exampleInputUsername1"
+            aria-describedby="emailHelp" placeholder="Username">
+          <span class="text-danger"
+            *ngIf="formValue.controls['username'].dirty && formValue.hasError('required','username')">Username is
+            required</span>
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputPassword1">Password</label>
+        <input type="text" formControlName="password" class="form-control" id="exampleInputPassword1"
+          placeholder="Password">
+        <span class="text-danger"
+          *ngIf="formValue.controls['password'].dirty && formValue.hasError('required','password')">Password is
+          required</span>
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputFirstName1">First Name</label>
+        <input type="text" formControlName="firstname" class="form-control" id="exampleInputFirstName1"
+          aria-describedby="emailHelp" placeholder="First Name">
+        <span class="text-danger"
+          *ngIf="formValue.controls['firstname'].dirty && formValue.hasError('required','firstname')">First Name is
+          required</span>
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputMiddleName1">Middle Name</label>
+        <input type="text" formControlName="middlename" class="form-control" id="exampleInputMiddleName1"
+          aria-describedby="emailHelp" placeholder="Middle Name">
+        <span class="text-danger"
+          *ngIf="formValue.controls['middlename'].dirty && formValue.hasError('required','middlename')">Middle Name is
+          required</span>
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputLastName1">Last Name</label>
+        <input type="text" formControlName="lastname" class="form-control" id="exampleInputLastName1"
+          aria-describedby="emailHelp" placeholder="Last Name">
+        <span class="text-danger"
+          *ngIf="formValue.controls['lastname'].dirty && formValue.hasError('required','lastname')">Last Name is
+          required</span>
+      </div>
+      <div class="form-group mb-3">
+        <label for="exampleInputEmail1">Email</label>
+        <input type="email" formControlName="email" class="form-control" id="exampleInputEmail1"
+          aria-describedby="emailHelp" placeholder="example@gmail.com">
+        <span class="text-danger"
+          *ngIf="formValue.controls['email'].dirty && formValue.hasError('required','email')">Email is required</span>
+
+      </div>
+      <div class="form-group mb-3">
+        <label for="exampleInputNumber1">Mobile Number</label>
+        <input type="text" formControlName="mobilenumber" class="form-control" id="exampleInputNumber1" maxlength="11"
+          placeholder="Mobile Number">
+        <span class="text-danger"
+          *ngIf="formValue.controls['mobilenumber'].dirty && formValue.hasError('required','mobilenumber')">Mobile
+          Number is required</span>
+      </div>
+      <div class="form-group mb-3">
+        <label for="exampleInputNumber1">Birthdate</label>
+        <input type="date" formControlName="birthdate" class="form-control" id="exampleInputNumber1"
+          placeholder="Birthdate">
+        <span class="text-danger"
+          *ngIf="formValue.controls['birthdate'].dirty && formValue.hasError('required','birthdate')">Birthdate is
+          required</span>
+      </div>
+      <div class="form-group mb-3">
+        <label for="exampleInputNumber1">Address</label>
+        <input type="text" formControlName="address" class="form-control" id="exampleInputNumber1"
+          placeholder="Address">
+        <span class="text-danger"
+          *ngIf="formValue.controls['address'].dirty && formValue.hasError('required','address')">Address is
+          required</span>
+      </div>
+      <div class="form-group mb-3">
+        <label for="exampleInputNumber1">Interest</label>
+        <input type="text" formControlName="interest" class="form-control" id="exampleInputNumber1"
+          placeholder="Interest">
+        <span class="text-danger"
+          *ngIf="formValue.controls['interest'].dirty && formValue.hasError('required','interest')">Interest is
+          required</span>
+      </div>
+
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" id="cancel" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      <button type="button" [disabled]="formValue.invalid"  (click)="postUserDetails()" class="btn btn-primary">Add</button>
+    </div>
+  </div>
+</div>
+</div>
+
+
+<div class="modal fade" id="deactivateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Deactivate Confirmation</h5>
+        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+
+      <div class="modal-body">
+        <div class="form-group mb-3">
+          <label for="exampleInputFirstName1">Are you sure you want to deactivate this user?</label>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="cancel" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button (click)="updateUserStatus()" type="button" class="btn btn-primary" data-bs-dismiss="modal">Yes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="activateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Deactivate Confirmation</h5>
+        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+
+      <div class="modal-body">
+        <div class="form-group mb-3">
+          <label for="exampleInputFirstName1">Are you sure you want to reactivate this user?</label>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="cancel" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button (click)="activateStatus()" type="button" class="btn btn-primary" data-bs-dismiss="modal">Yes</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+
+  <div *ngIf="visibility" 
+  aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <h3><br>Top 5 Products</h3>
+  <ng-container *ngIf="productList?.length != 0 || productList?.length != null">
+    <div class="card-table">
+        <div class="cart-product">
+            <table class="table">
+                <thead>
+                    <tr class="tbhead">
+                        <th scope="col"> No. </th>
+                        <th scope="col"> Name </th>
+                        <th scope="col"> Image </th>
+                        <th scope="col"> Description </th>
+                        <th scope="col"> Price </th>
+                        <th scope="col"> Item Sold </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngFor="let item of productList | topFivefilter; let i = index">
+                    <tr class="tbbody" >
+                        <ng-container *ngIf="i<5">
+                            <td> {{i+1}} </td>
+                            <td> {{item.title}} </td>
+                            <td> <img src="{{item.image}}" alt={{item.title}} height="100px" width="100px"> </td>
+                            <td> {{item.description}} </td>
+                            <td> {{item.price | currency: '&#8369;' : 'code'}} </td>
+                            <td> {{item.totalItemSale}} </td>
+                        </ng-container>
+                    </tr>
+                </ng-container>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</ng-container>
+</div>
+<br>
+<hr>
+<app-footer></app-footer>
